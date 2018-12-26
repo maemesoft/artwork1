@@ -24,6 +24,16 @@ var yy;
 var tt;
 var rr;
 
+var sound = [];
+
+function preload() {
+  sound[0] = loadSound('bgm.mp3');
+  sound[1] = loadSound('happy.mp3');
+  sound[2] = loadSound('angry.mp3');
+  sound[3] = loadSound('cry.mp3');
+  sound[4] = loadSound('fun.mp3');
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   MWidth = windowWidth;
@@ -56,11 +66,25 @@ function setup() {
     particles_c[i] = new Particle(random(0, width),random(0,height));
     particles_d[i] = new Particle(random(0, width),random(0,height));
     particles_e[i] = new Particle(random(0, width),random(0,height));
-}
+  }
 
+
+  
 }
 
 function draw() {
+
+  if (sound[0].isLoaded()) {
+    if (sound[0].isPlaying()) {
+
+    }
+    else {
+      sound[0].play();
+    }
+    
+    
+  }
+
   if (mode === 1) {
     blendMode(NORMAL)
     colorMode(RGB);
@@ -87,18 +111,18 @@ function draw() {
         colorMode(RGB);
         fill(100, 0, 0)
         blendMode(ADD)
-        const xs = []
-        const ys = [] 
-        for (let i = 0; i < 20; i ++) {
-        const theta = i * TAU / 20
-        const x = sin(theta)
-        const y = cos(theta)
-        const r = noise(1.23 + x * 0.5, 4.85 + y * 0.5, step * 0.01) * 2 * step
-        xs.push(x * r)
-        ys.push(y * r)
+        var xs = []
+        var ys = [] 
+        for (var i = 0; i < 20; i ++) {
+          var theta = i * TAU / 20
+          var x = sin(theta)
+          var y = cos(theta)
+          var r = noise(1.23 + x * 0.5, 4.85 + y * 0.5, step * 0.01) * 2 * step
+          xs.push(x * r)
+          ys.push(y * r)
         }
         beginShape()
-            for (let i = 0; i < 23; i ++) {
+            for (var i = 0; i < 23; i ++) {
                 curveVertex(width * 0.5 + xs[i % 20], height * 0.5 + ys[i % 20])
             }
         endShape()
@@ -159,21 +183,47 @@ function draw() {
 
 function keyPressed() {
     if (keyCode === LEFT_ARROW) {
+        if (mode != 1) {
+          for (var i = 1; i < 5; i++) {
+            sound[i].stop();
+            sound[1].play();
+          }
+        }
         mode = 1;
         console.log(1);
     } 
     if (keyCode === UP_ARROW) {
+      if (mode != 2) {
+        for (var i = 1; i < 5; i++) {
+          sound[i].stop();
+          sound[2].play();
+        }
+      }
         mode = 2;
         console.log(2);
     } 
     if (keyCode === DOWN_ARROW) {
+      if (mode != 3) {
+        for (var i = 1; i < 5; i++) {
+          sound[i].stop();
+          sound[3].play();
+        }
+      }
         mode = 3;
         console.log(3);
     } 
     if (keyCode === RIGHT_ARROW) {
+      if (mode != 4) {
+        for (var i = 1; i < 5; i++) {
+          sound[i].stop();
+          sound[4].play();
+        }
+      }
         mode = 4;
         console.log(4);
     }
+
+
 
     return false;
 }
